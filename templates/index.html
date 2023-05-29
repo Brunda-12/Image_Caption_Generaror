@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Captioning</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#uploadForm').submit(function (event) {
+                event.preventDefault();
+                var formData = new FormData(this);
+                $.ajax({
+                    url: '/generate-caption',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                        // Handle the response and display the captions
+                        //var actualCaptions = response.actual_captions;
+                        var predictedCaption = response.predicted_caption;
+                        var captionsHtml = '';
+                        //for (var i = 0; i < actualCaptions.length; i++) {
+                            //captionsHtml += '<p>' + actualCaptions[i] + '</p>';
+                        //}
+                        //$('#actualCaptions').html(captionsHtml);
+                        $('#predictedCaption').text(predictedCaption);
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Image Captioning</h1>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <input type="file" name="image">
+        <input type="submit" value="Generate Caption">
+    </form>
+
+    <h2>Predicted Caption:</h2>
+    <p id="predictedCaption"></p>
+</body>
+</html>
